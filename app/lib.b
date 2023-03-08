@@ -1,6 +1,7 @@
 import reflect
 import colors
 import iters
+import io
 
 
 var _before_eachs = []
@@ -70,8 +71,8 @@ class expect {
     } catch Exception e {
       _failed_tests++
       state.status = false
-      echo e.message
-      echo e.stacktrace
+      io.stderr.write(e.message + '\r\n')
+      io.stderr.write(e.stacktrace + '\r\n')
     } finally {
       _curr_it.expects.append(state)
     }
