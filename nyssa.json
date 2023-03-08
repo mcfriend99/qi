@@ -1,0 +1,20 @@
+{
+  "name": "qi", 
+  "version": "1.0.0", 
+  "description": "A testing framework for Blade programming language.", 
+  "homepage": "", 
+  "tags": [
+    "test", 
+    "blade", 
+    "testing", 
+    "tdd", 
+    "test-driven"
+  ], 
+  "author": "Richard Ore <eqliqandfriends@gmail.com>", 
+  "license": "MIT", 
+  "sources": [
+    "https://nyssa.bladelang.com"
+  ], 
+  "deps": {},
+  "post_install": "setup.b"
+}
