@@ -2,6 +2,7 @@ import os
 
 var is_windows = os.platform == 'windows'
 var path = './qi' + (is_windows ? '.cmd' : '')
+var cli_path = os.join_paths(os.dir_name(os.current_file()), 'cli.b')
 
 var cmd
 if !is_windows {
@@ -12,16 +13,13 @@ if !is_windows {
     '  exit 1\n' +
     'fi\n' +
     '\n'+ 
-    'QI_DIR=`dirname $0`\n' +
     'BLADE_EXE=`which blade`\n' +
     '\n' +
-    'exec $BLADE_EXE "$QI_DIR/cli.b" "$@"\n' +
-    '\n'
+    'exec $BLADE_EXE "${cli_path}" "$@"\n'
 } else {
 
   cmd = '@ECHO OFF\r\n' +
     'SETLOCAL\r\n' +
-    'SET "QI_DIR=%~dp0"\r\n' +
     '\r\n' +
     '@REM Find Blade executable\r\n' +
     'for %%i in (blade.exe) do SET "BLADE_EXE=%%~$PATH:i"\r\n' +
@@ -43,9 +41,8 @@ if !is_windows {
     '\r\n' +
     ':RUN\r\n' +
     '\r\n' +
-    '%BLADE_EXE% "%QI_DIR%\\cli.b" %*\r\n' +
-    'EXIT /B 0\r\n' +
-    '\r\n'
+    '%BLADE_EXE% "${cli_path}" %*\r\n' +
+    'EXIT /B 0\r\n'
 }
 
 

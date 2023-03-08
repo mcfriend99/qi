@@ -9,6 +9,7 @@ var _before_alls = []
 var _after_eachs = []
 var _after_alls = []
 var _total_tests = 0
+var _total_suites = 0
 var _passed_tests = 0
 var _failed_tests = 0
 var _file
@@ -297,6 +298,7 @@ def run(f) {
 def show_tests_results() {
   echo ''
 
+  var failed_suites = 0
   var failed_tests = 0
   var total_time = 0
 
@@ -308,7 +310,7 @@ def show_tests_results() {
     var fails = iters.filter(e.it, |x| {
       return iters.filter(x.expects, |y|{ return !y.status }).length() > 0
     }).length() > 0
-    if fails failed_tests++
+    if fails failed_suites++
 
     echo colors.text(
       !fails ? ' PASS ' : ' FAIL ', 
@@ -321,6 +323,7 @@ def show_tests_results() {
     iter var i = 0; i < e.it.length(); i++ {
       var _e = e.it[i]
       var it_fails = iters.filter(_e.expects, |x|{ return !x.status }).length() > 0
+      if it_fails failed_tests++
 
       echo '    ' + _print('${_e.name} (${_e.time / 1000}ms)', !it_fails)
 
@@ -332,12 +335,16 @@ def show_tests_results() {
     echo ''
   }
 
-  var passed_suites = _report((_total_tests - failed_tests) + ' passed', true)
+  var passed_suites = _report((_stats.length() - failed_suites) + ' passed', true)
+  var passed_tests = _report((_total_tests - failed_tests) + ' passed', true)
   var passes = _passed_tests > 0 ? _report(_passed_tests + ' passed', true) : '0 passed'
-  var fails = _failed_tests > 0 ? _report(_failed_tests + ' failed', false) : '0 failed'
+  var suite_fails = failed_suites > 0 ? _report(failed_suites + ' failed', false) : '0 failed'
+  var test_fails = failed_tests > 0 ? _report(failed_tests + ' failed', false) : '0 failed'
+  var assert_fails = _failed_tests > 0 ? _report(_failed_tests + ' failed', false) : '0 failed'
 
-  echo colors.text('Test suites:  ${passed_suites}, ${_total_tests} total', colors.style.bold)
-  echo colors.text('Tests:        ${passes}, ${fails}, ${_passed_tests + _failed_tests} total', colors.style.bold)
+  echo colors.text('Test suites:  ${passed_suites}, ${suite_fails}, ${_stats.length()} total', colors.style.bold)
+  echo colors.text('Tests:        ${passed_tests}, ${test_fails}, ${_total_tests} total', colors.style.bold)
+  echo colors.text('Assertions:   ${passes}, ${assert_fails}, ${_passed_tests + _failed_tests} total', colors.style.bold)
   echo colors.text('Time:         ${total_time / 1000}ms', colors.style.bold)
   echo colors.text(_gray('Ran all test suites.'), colors.style.bold)
 
