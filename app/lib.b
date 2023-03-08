@@ -57,7 +57,12 @@ class expect {
     if self._is_not name = 'not ${name}'
     if !fn fn = |x, y| { return x == y }
 
-    var state = {name: 'expect "${self.value}" ${name} "${expected}"', status: true}
+    var v = to_string(self.value).replace('/\\r|\\n/', ' ')
+    var w = to_string(expected).replace('/\\r|\\n/', ' ')
+    if v.length() > 20 v = v[,17] + '...'
+    if w.length() > 20 w = v[,17] + '...'
+
+    var state = {name: 'expect "${v}" ${name} "${w}"', status: true}
     
     try {
       if !self._is_not and fn(self.value, expected) {
@@ -284,16 +289,14 @@ def _report(text, state) {
   colors.text(text, colors.text_color.red)
 }
 
+def run(f) {
+  set_file(f)
+  reflect.run_script(f)
+}
+
 def show_tests_results() {
-  # echo 'Total Test: ${_total_tests}'
   echo ''
-  
-  # echo colors.text(
-  #   'Test Suites', 
-  #   _failed_tests > 0 ? 
-  #     colors.background.red :
-  #     colors.background.green
-  # )
+
   var failed_tests = 0
   var total_time = 0
 
@@ -330,11 +333,13 @@ def show_tests_results() {
   }
 
   var passed_suites = _report((_total_tests - failed_tests) + ' passed', true)
-  var passes = _report(_passed_tests + ' passed', true)
-  var fails = _report(_failed_tests + ' failed', false)
+  var passes = _passed_tests > 0 ? _report(_passed_tests + ' passed', true) : '0 passed'
+  var fails = _failed_tests > 0 ? _report(_failed_tests + ' failed', false) : '0 failed'
 
   echo colors.text('Test suites:  ${passed_suites}, ${_total_tests} total', colors.style.bold)
   echo colors.text('Tests:        ${passes}, ${fails}, ${_passed_tests + _failed_tests} total', colors.style.bold)
   echo colors.text('Time:         ${total_time / 1000}ms', colors.style.bold)
   echo colors.text(_gray('Ran all test suites.'), colors.style.bold)
+
+  return _failed_tests == 0
 }

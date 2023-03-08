@@ -1,16 +1,14 @@
 import os
 import iters
 import io
-import reflect
 import .app
 
 def run_test_files(files) {
   for f in files {
     f = os.join_paths('tests', f)
-    app.set_file(f)
-    reflect.run_script(f)
+    app.run(f)
   }
-  app.show_tests_results()
+  return app.show_tests_results()
 }
 
 def run() {
@@ -19,7 +17,9 @@ def run() {
       return x != '.' and x != '..' and x.ends_with('.b') 
     })
     if files {
-      run_test_files(files)
+      if !run_test_files(files) {
+        os.exit(1)
+      }
     } else {
       io.stderr.write('No test files found.\n')
     }
