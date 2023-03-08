@@ -2,7 +2,7 @@
   "name": "qi", 
   "version": "1.0.0", 
   "description": "A testing framework for Blade programming language.", 
-  "homepage": "", 
+  "homepage": "https://github.com/mcfriend99/qi.git", 
   "tags": [
     "test", 
     "blade", 
