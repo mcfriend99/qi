@@ -2,15 +2,6 @@
 
 A testing framework for Blade programming language.
 
-### Package Information
-
-- **Name:** qi
-- **Version:** 1.0.0
-- **Homepage:** https://github.com/mcfriend99/qi.git
-- **Tags:** test, blade, testing, tdd, test-driven
-- **Author:** Richard Ore <eqliqandfriends@gmail.com>
-- **License:** MIT
-
 ### Getting started
 
 Qi is a Nyssa package and can be installed using the command:
@@ -65,5 +56,3 @@ Ran all test suites.
 ```
 
 **You have successfully created your first Qi test!**
-
-Read more documentation at:
