@@ -1,7 +1,7 @@
 import os
 
 var is_windows = os.platform == 'windows'
-var path = './qi' + (is_windows ? '.cmd' : '')
+var path = '../../qi' + (is_windows ? '.cmd' : '')
 var cli_path = os.join_paths(os.dir_name(os.current_file()), 'cli.b')
 
 var cmd
