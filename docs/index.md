@@ -2,7 +2,7 @@
 
 A testing framework for Blade programming language.
 
-### Getting started
+### Installation
 
 Qi is a Nyssa package and can be installed using the command:
 
@@ -33,6 +33,8 @@ describe('Product test suite', || {
   })
 })
 ```
+
+### Running your tests
 
 Now let's run the test. If you have installed Qi using `nyssa` (which is recommended), then you can run the following command at the root directory (the directory that contains the `tests` folder).
 

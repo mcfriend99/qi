@@ -1,0 +1,49 @@
+- title: Introduction
+  url: /
+  links:
+    - title: "Getting Started"
+      url: "index"
+      children:
+        - title: Installation
+          url: "index#installation"
+        - title: "Writing a simple test"
+          url: "index#writing-a-simple-test"
+        - title: "Running your tests"
+          url: "index#running-your-tests"
+- title: Assertions
+  url: "assertions"
+  links:
+    - title: Assertions
+      url: "assertions"
+      children:
+        - title: Reference
+          url: "assertions#reference"
+        - title: Expect
+          url: "assertions#expect"
+        - title: Modifiers
+          url: "assertions#modifiers"
+        - title: Matchers
+          url: "assertions#matchers"
+- title: Globals
+  url: "globals"
+  links:
+    - title: Reference
+      url: "globals#reference"
+    - title: Methods
+      url: "globals#methods"
+      children:
+        - title: describe
+          url: "globals#describe"
+        - title: it
+          url: "globals#it"
+    - title: Hooks
+      url: "globals#hooks"
+      children:
+        - title: before_all
+          url: "globals#before_all"
+        - title: after_all
+          url: "globals#after_all"
+        - title: before_each
+          url: "globals#before_each"
+        - title: after_each
+          url: "globals#after_each"

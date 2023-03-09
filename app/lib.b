@@ -91,42 +91,52 @@ class expect {
 
   to_be(e) {
     self._run('to be', e)
+    return self
   }
 
   to_be_nil() {
     self._run('to be nil', nil)
+    return self
   }
 
   to_be_defined() {
     self._run('to be defined', '!nil', |x, y| { return x != nil })
+    return self
   }
 
   to_be_truthy() {
     self._run('to be truthy', true, |x, y| { return !!x })
+    return self
   }
 
   to_be_falsy() {
     self._run('to be falsy', false, |x, y| { return !x })
+    return self
   }
 
   to_be_greater_than(e) {
     self._run('to be greather than', e, |x, y| { return x > e })
+    return self
   }
 
   to_be_greater_than_or_equal(e) {
     self._run('to be greather than or equal to', e, |x, y| { return x >= e })
+    return self
   }
 
   to_be_less_than(e) {
     self._run('to be less than', e, |x, y| { return x < e })
+    return self
   }
 
   to_be_less_than_or_equal(e) {
     self._run('to be less than or equal to', e, |x, y| { return x <= e })
+    return self
   }
 
   to_match(e) {
     self._run('to match', e, |x, y| { return x.match(y) })
+    return self
   }
 
   to_contain(e) {
@@ -134,6 +144,7 @@ class expect {
       if is_dict(x) return x.contains(y)
       return x.count(y) > 0
     })
+    return self
   }
 
   to_throw(e) {
@@ -152,14 +163,18 @@ class expect {
         }
       })
     }
+
+    return self
   }
 
   to_have_length(e) {
     self._run('to have length', e, |x, y| { return x.length() == y })
+    return self
   }
 
   to_be_instance_of(e) {
     self._run('to be an instance of', e, |x, y| { return instance_of(x, y) })
+    return self
   }
 
   to_have_property(e, value) {
@@ -173,58 +188,72 @@ class expect {
       }
       return res
     })
+
+    return self
   }
 
   to_have_method(e) {
     self._run('to have a method', e, |x, y| {
       return is_instance(x) and reflect.has_method(x, y)
     })
+    return self
   }
 
   to_have_decorator(e) {
     self._run('to have a decorator', e, |x, y| {
       return is_instance(x) and reflect.has_decorator(x, y)
     })
+    return self
   }
 
   to_be_boolean() {
     self._run('to be a boolean', 'boolean', |x, y| { return is_bool(x) })
+    return self
   }
 
   to_be_number() {
     self._run('to be a number', 'number', |x, y| { return is_number(x) })
+    return self
   }
 
   to_be_string() {
     self._run('to be a string', 'string', |x, y| { return is_string(x) })
+    return self
   }
 
   to_be_list() {
     self._run('to be a list', 'list', |x, y| { return is_list(x) })
+    return self
   }
 
   to_be_dict() {
     self._run('to be a dict', 'dict', |x, y| { return is_dict(x) })
+    return self
   }
 
   to_be_function() {
     self._run('to be a function', 'function', |x, y| { return is_function(x) })
+    return self
   }
 
   to_be_class() {
     self._run('to be a class', 'class', |x, y| { return is_class(x) })
+    return self
   }
 
   to_be_iterable() {
     self._run('to be an iterable', 'iterable', |x, y| { return is_iterable(x) })
+    return self
   }
 
   to_be_file() {
     self._run('to be a file', 'file', |x, y| { return is_file(x) })
+    return self
   }
 
   to_be_bytes() {
     self._run('to be bytes', 'bytes', |x, y| { return is_bytes(x) })
+    return self
   }
 }
 

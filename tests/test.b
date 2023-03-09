@@ -13,6 +13,8 @@ describe('the can', || {
     
     expect(A()).to_have_property('name')
     expect(A()).to_have_property('name', 'something')
+
+    expect(10.5).to_be_number().to_be_less_than(20)
   })
 
   it('has a sophisticated name', || {
