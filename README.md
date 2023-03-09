@@ -66,4 +66,4 @@ Ran all test suites.
 
 **You have successfully created your first Qi test!**
 
-Read more documentation at:
+Read more documentation at: [mcfriend99.github.io/qi](https://mcfriend99.github.io/qi/)
