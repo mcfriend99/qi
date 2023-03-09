@@ -43,7 +43,7 @@ When writing tests you often need to check that a value meets certain criterias.
 
 The `expect` function is used every time you want to test a value. You will rarely call `expect` by itself. Instead, you will use `expect` along with a "matcher" function to assert something about a value. Let's say you have a method `name_of_app()` which is supposed to return the string `'qi'`. Here's how you would test that:
 
-```py
+```js
 describe('Name of app test', || {
   it('should be qi', || {
     expect(name_of_app()).to_be('qi')
@@ -61,7 +61,7 @@ The argument to `expect` should be the value that your code produces, and any ar
 
 If you know how to test something, `.not()` lets you test its opposite. For example, this code tests that the name of the application is `not` `'qi'`.
 
-```
+```js
 describe('Name of app test', || {
   it('should be qi', || {
     expect(name_of_app()).not().to_be('qi')
@@ -84,7 +84,7 @@ describe('Name of app test', || {
 
 Use `.to_be` to compare primitive values or to check referential identity of object instances. For example, this code will validate some properties of the `can` object:
 
-```
+```js
 var can = {
   name: 'pamplemousse',
   ounces: 12,
