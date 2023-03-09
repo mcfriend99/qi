@@ -38,13 +38,13 @@ describe('Product test suite', || {
 
 Now let's run the test. If you have installed Qi using `nyssa` (which is recommended), then you can run the following command at the root directory (the directory that contains the `tests` folder).
 
-```
+```sh
 .blade/qi
 ```
 
 You should get an output similar to this:
 
-```
+```sh
  PASS  tests/prod.test.b
   Product test suite
     ✔ should return 6 for 2 and 3 (1.09ms)

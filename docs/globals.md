@@ -21,7 +21,7 @@ In your test files, Qi puts each of these methods and objects into the global en
 
 `describe(name, fn)` creates a block that groups together several related tests. It is the Test Suite. For example, if you have a `myBeverage` object that is supposed to be delicious but not sour, you could test it with:
 
-```
+```js
 var myBeverage = {
   delicious: true,
   sour: false,
@@ -40,7 +40,7 @@ describe('my beverage', || {
 
 You can also nest `describe` blocks if you have a hierarchy of tests:
 
-```
+```js
 var binay_string_to_number = | bin_string | {
   if !bin_string.match('/^[01]+$/') {
     die CustomError('Not a binary number.')
@@ -72,7 +72,7 @@ describe('binay string to number', || {
 
 The `it(name, fn)` function is the entry point for tests in a test suite. For example, let's say there's a function `inches_of_rain()` that should be zero. Your whole test could be:
 
-```
+```js
 it('did not rain', || {
   expect(inches_of_rain()).to_be(0)
 })
@@ -95,7 +95,7 @@ Runs a function before each of the tests in the test suite run. This is often us
 
 For example:
 
-```
+```js
 var global_db = make_global_db()
 
 before_all(|| {
@@ -124,7 +124,7 @@ Runs a function after all the tests in a test suite have completed. This is ofte
 
 For example:
 
-```
+```js
 var global_db = make_global_db()
 
 def clean_up_db(db) {
@@ -160,7 +160,7 @@ Runs a function before each of the tests in the test suite runs. This is often u
 
 For example:
 
-```
+```js
 var global_db = make_global_db()
 
 before_each(|| {
@@ -192,7 +192,7 @@ Runs a function after each one of the tests in this file completes. This is ofte
 
 For example:
 
-```
+```js
 var global_db = make_global_db()
 
 def clean_up_db(db) {
