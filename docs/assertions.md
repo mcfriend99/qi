@@ -20,7 +20,7 @@ When writing tests you often need to check that a value meets certain criterias.
     - [to\_be\_less\_than(number)](#to_be_less_thannumber)
     - [to\_be\_less\_than\_or\_equal(number)](#to_be_less_than_or_equalnumber)
     - [to\_match(value)](#to_matchvalue)
-    - [to\_contain(item | substring)](#to_containitem--substring)
+    - [to\_contain(item)](#to_containitem)
     - [to\_throw(error)](#to_throwerror)
     - [to\_have\_length(number)](#to_have_lengthnumber)
     - [to\_be\_instance\_of(class)](#to_be_instance_ofclass)
@@ -43,7 +43,7 @@ When writing tests you often need to check that a value meets certain criterias.
 
 The `expect` function is used every time you want to test a value. You will rarely call `expect` by itself. Instead, you will use `expect` along with a "matcher" function to assert something about a value. Let's say you have a method `name_of_app()` which is supposed to return the string `'qi'`. Here's how you would test that:
 
-```
+```py
 describe('Name of app test', || {
   it('should be qi', || {
     expect(name_of_app()).to_be('qi')
@@ -229,7 +229,7 @@ describe('grapefruits', || {
 })
 ```
 
-### to_contain(item | substring)
+### to_contain(item)
 
 Use `.to_contain` when you want to check that an item is in an list or dictionary or whether a string is a substring of another string.
 
