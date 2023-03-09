@@ -52,6 +52,8 @@ describe('grapefruits', || {
   it('should be a grape', || {
     expect('grapefruits').to_match('grape')
     expect(do_something(1)).to_be_function()
+
+    expect('Hosana').to_be_string()
   })
 })
 

@@ -195,35 +195,35 @@ class expect {
     self._run('to be a boolean', 'boolean', |x, y| { return is_bool(x) })
   }
 
-  to_be_a_number() {
+  to_be_number() {
     self._run('to be a number', 'number', |x, y| { return is_number(x) })
   }
 
-  to_be_a_string() {
+  to_be_string() {
     self._run('to be a string', 'string', |x, y| { return is_string(x) })
   }
 
-  to_be_a_list() {
+  to_be_list() {
     self._run('to be a list', 'list', |x, y| { return is_list(x) })
   }
 
-  to_be_a_dict() {
+  to_be_dict() {
     self._run('to be a dict', 'dict', |x, y| { return is_dict(x) })
   }
 
-  to_be_a_function() {
+  to_be_function() {
     self._run('to be a function', 'function', |x, y| { return is_function(x) })
   }
 
-  to_be_a_class() {
+  to_be_class() {
     self._run('to be a class', 'class', |x, y| { return is_class(x) })
   }
 
-  to_be_an_iterable() {
+  to_be_iterable() {
     self._run('to be an iterable', 'iterable', |x, y| { return is_iterable(x) })
   }
 
-  to_be_a_file() {
+  to_be_file() {
     self._run('to be a file', 'file', |x, y| { return is_file(x) })
   }
 
@@ -275,7 +275,12 @@ def describe(desc, fn) {
   }
 
   _curr_desc.name = desc
-  fn()
+  try {
+    fn()
+  } catch Exception e {
+    io.stderr.write(e.message + '\r\n')
+    io.stderr.write(e.stacktrace + '\r\n')
+  }
 
   for aa in _after_alls {
     aa()

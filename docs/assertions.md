@@ -29,14 +29,14 @@ When writing tests you often need to check that a value meets certain criterias.
     - [to\_have\_method(name)](#to_have_methodname)
     - [to\_have\_decorator(name)](#to_have_decoratorname)
     - [to\_be\_boolean()](#to_be_boolean)
-    - [to\_be\_a\_number()](#to_be_a_number)
-    - [to\_be\_a\_string()](#to_be_a_string)
-    - [to\_be\_a\_list()](#to_be_a_list)
-    - [to\_be\_a\_dict()](#to_be_a_dict)
-    - [to\_be\_a\_function()](#to_be_a_function)
-    - [to\_be\_a\_class()](#to_be_a_class)
-    - [to\_be\_an\_iterable()](#to_be_an_iterable)
-    - [to\_be\_a\_file()](#to_be_a_file)
+    - [to\_be\_number()](#to_be_number)
+    - [to\_be\_string()](#to_be_string)
+    - [to\_be\_list()](#to_be_list)
+    - [to\_be\_dict()](#to_be_dict)
+    - [to\_be\_function()](#to_be_function)
+    - [to\_be\_class()](#to_be_class)
+    - [to\_be\_iterable()](#to_be_iterable)
+    - [to\_be\_file()](#to_be_file)
     - [to\_be\_bytes()](#to_be_bytes)
 
 
@@ -365,32 +365,70 @@ expect(return_class()).to_have_method('testing')
 
 ### to_have_decorator(name)
 
+Use the `.to_have_decorator` to check if an object is an instance of a class having a particular decorator. For example, let's say you have a class `A` and `B` defined as follows:
+
+```
+class A {
+  @testing() {}
+}
+
+class B {
+  @testing() {}
+}
+```
+
+and you have a function `return_class()` that could return an instance of any of `A` or `B`, you can test the output of that method like,
+
+```
+expect(return_class()).to_have_decorator('testing')
+```
 
 ### to_be_boolean()
 
+Use `.to_be_boolean` to check for `true` or `false` values. For example, test that `user_is_admin()` returns a value of `true` or `false`:
 
-### to_be_a_number()
+```
+it('should be true or false', || {
+  expect(user_is_admin()).to_be_boolean()
+})
+```
+
+### to_be_number()
+
+Use `.to_be_number` to check that a value is a number without requiring any specific number. For example, test that `number_of_cans()` returns a valid number:
+
+```
+it('should be be a number', || {
+  expect(number_of_cans()).to_be_number()
+})
+```
+
+### to_be_string()
+
+Use `.to_be_string` to check that a value is a string without requiring any specific content. For example, test that `name_of_king()` returns a valid string:
+
+```
+it('should be be a string', || {
+  expect(name_of_king()).to_be_string()
+})
+```
+
+### to_be_list()
 
 
-### to_be_a_string()
+### to_be_dict()
 
 
-### to_be_a_list()
+### to_be_function()
 
 
-### to_be_a_dict()
+### to_be_class()
 
 
-### to_be_a_function()
+### to_be_iterable()
 
 
-### to_be_a_class()
-
-
-### to_be_an_iterable()
-
-
-### to_be_a_file()
+### to_be_file()
 
 
 ### to_be_bytes()
