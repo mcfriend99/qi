@@ -63,20 +63,20 @@ class expect {
     if v.length() > 20 v = v[,17] + '...'
     if w.length() > 20 w = v[,17] + '...'
 
-    var state = {name: 'expect "${v}" ${name} "${w}"', status: true}
+    var state = {name: 'expect "${v}" ${name} "${w}"', status: false}
     
     try {
       if !self._is_not and fn(self.value, expected) {
         _passed_tests++
+        state.status = true
       } else if self._is_not and !fn(self.value, expected) {
         _passed_tests++
+        state.status = true
       } else {
         _failed_tests++
-        state.status = false
       }
     } catch Exception e {
       _failed_tests++
-      state.status = false
       io.stderr.write(e.message + '\r\n')
       io.stderr.write(e.stacktrace + '\r\n')
     } finally {
@@ -95,6 +95,10 @@ class expect {
 
   to_be_nil() {
     self._run('to be nil', nil)
+  }
+
+  to_be_defined() {
+    self._run('to be defined', '!nil', |x, y| { return x != nil })
   }
 
   to_be_truthy() {
@@ -141,8 +145,9 @@ class expect {
           x()
           return false
         } catch Exception ex {
-          if is_string(e) return ex.message.match(e) > 0
+          if is_string(e) return ex.message.match(e)
           if is_class(e) return instance_of(ex, e)
+          if instance_of(e, Exception) and ex == e return true
           return true
         }
       })
@@ -158,12 +163,19 @@ class expect {
   }
 
   to_be_function(e) {
-    self._run('to be a function', e, |x, y| { return is_function(x, y) })
+    self._run('to be a function', e, |x, y| { return is_function(x) })
   }
 
-  to_have_property(e) {
-    self._run('to have a property', e, |x, y| {
-      return is_instance(x) and reflect.has_prop(x, y)
+  to_have_property(e, value) {
+    var name = 'to have a property'
+    if value != nil name = 'to have value "${to_string(value)}" in property'
+
+    self._run(name, e, |x, y| {
+      var res = is_instance(x) and reflect.has_prop(x, y)
+      if res and value != nil {
+        return reflect.get_prop(x, y) == value
+      }
+      return res
     })
   }
 
@@ -233,7 +245,12 @@ def it(desc, fn) {
     time: 0,
   }
 
-  fn()
+  try {
+    fn()
+  } catch Exception e {
+    io.stderr.write(e.message + '\r\n')
+    io.stderr.write(e.stacktrace + '\r\n')
+  }
 
   for ae in _after_eachs {
     ae()
@@ -290,6 +307,16 @@ def _report(text, state) {
   colors.text(text, colors.text_color.red)
 }
 
+def _time(time) {
+  if time < 1000 {
+    return time + 'µs'
+  } else if time < 1000000 {
+    return (time / 1000) + 'ms'
+  }
+
+  return (time / 1000000) + 's'
+}
+
 def run(f) {
   set_file(f)
   reflect.run_script(f)
@@ -325,7 +352,7 @@ def show_tests_results() {
       var it_fails = iters.filter(_e.expects, |x|{ return !x.status }).length() > 0
       if it_fails failed_tests++
 
-      echo '    ' + _print('${_e.name} (${_e.time / 1000}ms)', !it_fails)
+      echo '    ' + _print('${_e.name} (${_time(_e.time)})', !it_fails)
 
       iter var j = 0; j < _e.expects.length(); j++ {
         var expect = _e.expects[j]
@@ -345,7 +372,7 @@ def show_tests_results() {
   echo colors.text('Test suites:  ${passed_suites}, ${suite_fails}, ${_stats.length()} total', colors.style.bold)
   echo colors.text('Tests:        ${passed_tests}, ${test_fails}, ${_total_tests} total', colors.style.bold)
   echo colors.text('Assertions:   ${passes}, ${assert_fails}, ${_passed_tests + _failed_tests} total', colors.style.bold)
-  echo colors.text('Time:         ${total_time / 1000}ms', colors.style.bold)
+  echo colors.text('Time:         ${_time(total_time)}', colors.style.bold)
   echo colors.text(_gray('Ran all test suites.'), colors.style.bold)
 
   return _failed_tests == 0

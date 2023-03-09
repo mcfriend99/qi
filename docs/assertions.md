@@ -1,86 +1,398 @@
 # Assertions
 
-This page describes all possible assertions in Qi and how to use them.
+When writing tests you often need to check that a value meets certain criterias. The `expect()` function gives you access to an array of assertions that lets you test against different conditions. This page describes assertions, how to use them and all possible assertions in Qi.
 
-### to_be
+## Reference
 
-
-### to_be_nil
-
-
-### to_be_truthy
-
-
-### to_be_falsy
-
-
-### to_be_greater_than
-
-
-### to_be_greater_than_or_equal
-
-
-### to_be_less_than
-
-
-### to_be_less_than_or_equal
-
-
-### to_match
-
-
-### to_contain
-
-
-### to_throw
-
-
-### to_have_length
-
-
-### to_be_instance_of
-
-
-### to_be_function
+- [Assertions](#assertions)
+  - [Reference](#reference)
+  - [expect()](#expect)
+  - [Modifiers](#modifiers)
+    - [not()](#not)
+  - [Matchers](#matchers)
+    - [to\_be(value)](#to_bevalue)
+    - [to\_be\_nil()](#to_be_nil)
+    - [to\_be\_defined()](#to_be_defined)
+    - [to\_be\_truthy()](#to_be_truthy)
+    - [to\_be\_falsy()](#to_be_falsy)
+    - [to\_be\_greater\_than(number)](#to_be_greater_thannumber)
+    - [to\_be\_greater\_than\_or\_equal(number)](#to_be_greater_than_or_equalnumber)
+    - [to\_be\_less\_than(number)](#to_be_less_thannumber)
+    - [to\_be\_less\_than\_or\_equal(number)](#to_be_less_than_or_equalnumber)
+    - [to\_match(value)](#to_matchvalue)
+    - [to\_contain(item | substring)](#to_containitem--substring)
+    - [to\_throw(error)](#to_throwerror)
+    - [to\_have\_length(number)](#to_have_lengthnumber)
+    - [to\_be\_instance\_of(class)](#to_be_instance_ofclass)
+    - [to\_be\_function(value)](#to_be_functionvalue)
+    - [to\_have\_property(name, value?)](#to_have_propertyname-value)
+    - [to\_have\_method(name)](#to_have_methodname)
+    - [to\_have\_decorator(name)](#to_have_decoratorname)
+    - [to\_be\_boolean()](#to_be_boolean)
+    - [to\_be\_a\_number()](#to_be_a_number)
+    - [to\_be\_a\_string()](#to_be_a_string)
+    - [to\_be\_a\_list()](#to_be_a_list)
+    - [to\_be\_a\_dict()](#to_be_a_dict)
+    - [to\_be\_a\_function()](#to_be_a_function)
+    - [to\_be\_a\_class()](#to_be_a_class)
+    - [to\_be\_an\_iterable()](#to_be_an_iterable)
+    - [to\_be\_a\_file()](#to_be_a_file)
+    - [to\_be\_bytes()](#to_be_bytes)
 
 
-### to_have_property
+## expect()
+
+The `expect` function is used every time you want to test a value. You will rarely call `expect` by itself. Instead, you will use `expect` along with a "matcher" function to assert something about a value. Let's say you have a method `name_of_app()` which is supposed to return the string `'qi'`. Here's how you would test that:
+
+```
+describe('Name of app test', || {
+  it('should be qi', || {
+    expect(name_of_app()).to_be('qi')
+  })
+})
+```
+
+In this case, `to_be` is the matcher function. There are a lot of different matcher functions, documented below, to help you test different things.
+
+The argument to `expect` should be the value that your code produces, and any argument to the matcher should be the correct value. If you mix them up, your tests will still work, but the reporting messages show after running tests will look strange.
+
+## Modifiers
+
+### not()
+
+If you know how to test something, `.not()` lets you test its opposite. For example, this code tests that the name of the application is `not` `'qi'`.
+
+```
+describe('Name of app test', || {
+  it('should be qi', || {
+    expect(name_of_app()).not().to_be('qi')
+  })
+})
+```
+
+## Matchers
 
 
-### to_have_method
+### to_be(value)
+
+Use `.to_be` to compare primitive values or to check referential identity of object instances. For example, this code will validate some properties of the `can` object:
+
+```
+var can = {
+  name: 'pamplemousse',
+  ounces: 12,
+}
+
+describe('the can', || {
+  it('has 12 ounces', || {
+    expect(can.ounces).to_be(12)
+  })
+
+  it('has a sophisticated name', || {
+    expect(can.name).to_be('pamplemousse')
+  })
+})
+```
+
+### to_be_nil()
+
+`.to_be_nil()` is the same as `.to_be(nil)` but the error messages are a bit nicer. So use `.to_be_nil()` when you want to check that something is nil.
+
+```
+def bloop() {
+  return nil
+}
+
+it('should return nil', || {
+  expect(bloop()).to_be_nil()
+})
+```
+
+### to_be_defined()
+
+Use `.to_be_defined` to check that a variable is not `nil`. For example, if you want to check that a function `fetch_new_flavor_idea()` returns something, you can write:
+
+```
+expect(fetch_new_flavor_idea()).to_be_defined()
+```
+
+You could also write `expect(fetch_new_flavor_idea()).not().to_be_nil()` as they are identical, but it's better practice to use the direct method.
+
+### to_be_truthy()
+
+Use `.to_be_truthy` when you don't care what a value is and you want to ensure a value is true in a boolean context. For example, let's say you have some application code that looks like:
+
+```
+drink_some_lacroix()
+if (thirsty()) {
+  drink_more_lacroix()
+}
+```
+
+You may not care what `get_errors` returns, specifically - it might return `true`, `[1]`, or anything that's true in Blade, and your code would still work. So if you want to test you are thirsty before drinking some La Croix, you could write:
+
+```
+it('should be thirsty before drinking La Croix', || {
+  drink_some_lacroix()
+  expect(thirsty()).to_be_truthy()
+})
+```
+
+### to_be_falsy()
+
+Use `.to_be_falsy` when you don't care what a value is and you want to ensure a value is false in a boolean context. For example, let's say you have some application code that looks like:
+
+```
+drink_some_lacroix()
+if (!get_errors()) {
+  drink_more_lacroix()
+}
+```
+
+You may not care what `get_errors` returns, specifically - it might return `false`, `nil`, or `-1`, and your code would still work. So if you want to test there are no errors after drinking some La Croix, you could write:
+
+```
+it('does not lead to errors when drinking La Croix', || {
+  drink_some_lacroix()
+  expect(get_errors()).to_be_falsy()
+})
+```
+
+### to_be_greater_than(number)
+
+Use `.to_be_greater_than` to compare `received > expected` for number or big integer values. For example, test that `ounces_per_can()` returns a value of more than 10 ounces:
+
+```
+it('is more than 10 ounces per can', || {
+  expect(ounces_per_can()).to_be_greater_than(10)
+})
+```
+
+### to_be_greater_than_or_equal(number)
+
+Use `.to_be_greater_than_or_equal` to compare `received >= expected` for number or big integer values. For example, test that `ounces_per_can()` returns a value of more than or equal to 10 ounces:
+
+```
+it('is more than or equal to 10 ounces per can', || {
+  expect(ounces_per_can()).to_be_greater_than_or_equal(10)
+})
+```
+
+### to_be_less_than(number)
+
+Use `.to_be_less_than` to compare `received < expected` for number or big integer values. For example, test that `ounces_per_can()` returns a value of less than 10 ounces:
+
+```
+it('is less than 10 ounces per can', || {
+  expect(ounces_per_can()).to_be_less_than(10)
+})
+```
+
+### to_be_less_than_or_equal(number)
+
+Use `.to_be_less_than_or_equal` to compare `received <= expected` for number or big integer values. For example, test that `ounces_per_can()` returns a value of less than or equal to 10 ounces:
+
+```
+it('is less than or equal to 10 ounces per can', || {
+  expect(ounces_per_can()).to_be_less_than_or_equal(10)
+})
+```
+
+### to_match(value)
+
+Use `.to_match` to check that a string matches a regular expression.
+
+For example, you might not know what exactly `essay_on_the_best_flavor()` returns, but you know it's a really long string, and the substring grapefruit should be in there somewhere. You can test this with:
+
+```
+describe('an essay on the best flavor', || {
+  it('mentions grapefruit', || {
+    expect(essay_on_the_best_flavor()).to_match('/grapefruit/i')
+  })
+})
+```
+
+This matcher also accepts a string, which it will try to match:
+
+```
+describe('grapefruits', || {
+  it('should be a grape', || {
+    expect('grapefruits').to_match('grape')
+  })
+})
+```
+
+### to_contain(item | substring)
+
+Use `.to_contain` when you want to check that an item is in an list or dictionary or whether a string is a substring of another string.
+
+For example, if `get_all_flavors()` returns an list of flavors and you want to be sure that lime is in there, you can write:
+
+```
+it('should contain lime', || {
+  expect(get_all_flavors()).to_contain('lime')
+})
+```
+
+### to_throw(error)
+
+Use `.to_throw` to test that a function throws when it is called. For example, if we want to test that `drink_flavor('octopus')` throws, because octopus flavor is too disgusting to drink, we could write:
+
+```
+it('throws on octopus', || {
+  expect(|| {
+    drink_flavor('octopus')
+  }).to_throw()
+})
+```
+
+> **NOTE:**
+> 
+> You must wrap the code in a function, otherwise the error will not be caught and the assertion will fail.
+
+You can provide an optional argument to test that a specific error is thrown:
+
+- string: error message **includes** the substring
+- regular expression: error message **matches** the pattern
+- error object: error message is **equal to** the message property of the object
+- error class: error object is **instance of** class
+
+For example, let's say `drink_flavor()` looks like this:
+
+```
+def drink_flavor(flavor) {
+  if flavor == 'octopus' {
+    die DisgustingFlavorError('yuck, octopus flavor')
+  }
+  # Do some other stuff
+}
+```
+
+We could test the error thrown in several ways:
+
+```
+it('throws on octopus', || {
+  def drink_octopus() {
+    drink_flavor('octopus')
+  }
+
+  # Test that the error message says "yuck" somewhere: these are equivalent
+  expect(drink_octopus).to_throw('/yuck/')
+  expect(drink_octopus).to_throw('yuck')
+
+  # Test the exact error message
+  expect(drink_octopus).to_throw('/^yuck, octopus flavor$/')
+  expect(drink_octopus).to_throw(Exception('yuck, octopus flavor'))
+
+  # Test that we get a DisgustingFlavorError
+  expect(drink_octopus).to_throw(DisgustingFlavorError)
+})
+```
+
+### to_have_length(number)
+
+Use `.to_have_length` to check that an object has a .length property and it is set to a certain numeric value. For example:
+
+```
+expect([1, 2, 3]).to_have_length(3)
+expect('abc').to_have_length(3)
+expect('').not().to_have_length(5)
+```
+
+### to_be_instance_of(class)
+
+Use `.to_be_instance_of(class)` to check that an object is an instance of a class. This matcher uses `instance_of` underneath.
+
+```
+class A {}
+
+expect(A()).to_be_instance_of(A)
+expect(A()).to_be_instance_of(Exception) # fails
+```
+
+### to_be_function(value)
+
+Use `.to_be_function` when you want to check if a value is a function or a closure. For example, if `do_something()` is a function looking like this:
+
+```
+def do_something(id) {
+  if id == 1 return || { do_another_thing() }
+  else return || { do_something_else() }
+}
+```
+
+We can test that `do_something()` correctly returns a function.
+
+```
+expect(do_something(1)).to_be_function()
+```
 
 
-### to_have_decorator
+### to_have_property(name, value?)
+
+Use `.to_have_property` to check if an object has a given property. You can provide an optional value argument to compare the received property value against an expected value.
+
+```
+class A {
+  var name = 'something'
+}
+
+expect(A()).to_have_property('name')
+expect(A()).to_have_property('name', 'something')
+```
+
+> It's important to note that when value is given, value must not be `nil`.
+
+### to_have_method(name)
+
+Use the `.to_have_method` to check if an object is an instance of a class having a particular method. For example, let's say you have a class `A` and `B` defined as follows:
+
+```
+class A {
+  testing() {}
+}
+
+class B {
+  testing() {}
+}
+```
+
+and you have a function `return_class()` that could return an instance of any of `A` or `B`, you can test the output of that method like,
+
+```
+expect(return_class()).to_have_method('testing')
+```
+
+### to_have_decorator(name)
 
 
-### to_be_boolean
+### to_be_boolean()
 
 
-### to_be_a_number
+### to_be_a_number()
 
 
-### to_be_a_string
+### to_be_a_string()
 
 
-### to_be_a_list
+### to_be_a_list()
 
 
-### to_be_a_dict
+### to_be_a_dict()
 
 
-### to_be_a_function
+### to_be_a_function()
 
 
-### to_be_a_class
+### to_be_a_class()
 
 
-### to_be_an_iterable
+### to_be_an_iterable()
 
 
-### to_be_a_file
+### to_be_a_file()
 
 
-### to_be_bytes
-
+### to_be_bytes()
 
 
