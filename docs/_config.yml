@@ -9,9 +9,9 @@ title: qi
 tagline: ' testing framework for Blade programming language.'
 
 logo_pixels: 34
-color: "#0eaf7a"
-accentColor: green # purple, green, etc.
-themeColor: green # purple, green, blue, orange, purple, grey
+color: "#9c0eaf"
+accentColor: purple # purple, green, etc.
+themeColor: purple # purple, green, blue, orange, purple, grey
 fixedNav: 'true' # true or false
 feedback: true
 
