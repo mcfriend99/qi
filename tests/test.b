@@ -48,12 +48,29 @@ def do_something(id) {
   else return || { do_something_else() }
 }
 
+class Set {
+  @iter() {}
+  @itern() {}
+}
+
 describe('grapefruits', || {
   it('should be a grape', || {
     expect('grapefruits').to_match('grape')
     expect(do_something(1)).to_be_function()
 
     expect('Hosana').to_be_string()
+    expect(Exception).to_be_class()
+  })
+  
+  it('should be valid type', || {
+    expect({age: 10}).to_be_dict()
+    expect(bytes(0)).to_be_bytes()
+  })
+
+  it('should be enumerable', || {
+    expect([]).to_be_iterable()
+    expect({}).to_be_iterable()
+    expect(Set()).to_be_iterable()
   })
 })
 

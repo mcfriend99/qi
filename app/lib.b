@@ -162,10 +162,6 @@ class expect {
     self._run('to be an instance of', e, |x, y| { return instance_of(x, y) })
   }
 
-  to_be_function(e) {
-    self._run('to be a function', e, |x, y| { return is_function(x) })
-  }
-
   to_have_property(e, value) {
     var name = 'to have a property'
     if value != nil name = 'to have value "${to_string(value)}" in property'

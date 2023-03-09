@@ -33,7 +33,6 @@ When writing tests you often need to check that a value meets certain criterias.
     - [to\_be\_string()](#to_be_string)
     - [to\_be\_list()](#to_be_list)
     - [to\_be\_dict()](#to_be_dict)
-    - [to\_be\_function()](#to_be_function)
     - [to\_be\_class()](#to_be_class)
     - [to\_be\_iterable()](#to_be_iterable)
     - [to\_be\_file()](#to_be_file)
@@ -398,7 +397,7 @@ it('should be true or false', || {
 Use `.to_be_number` to check that a value is a number without requiring any specific number. For example, test that `number_of_cans()` returns a valid number:
 
 ```
-it('should be be a number', || {
+it('should be a number', || {
   expect(number_of_cans()).to_be_number()
 })
 ```
@@ -408,29 +407,77 @@ it('should be be a number', || {
 Use `.to_be_string` to check that a value is a string without requiring any specific content. For example, test that `name_of_king()` returns a valid string:
 
 ```
-it('should be be a string', || {
+it('should be a string', || {
   expect(name_of_king()).to_be_string()
 })
 ```
 
 ### to_be_list()
 
+Use `.to_be_list` to check that a value is a list without requiring any specific content. For example, test that `fruits()` returns a valid list:
+
+```
+it('should be a string', || {
+  expect(fruits()).to_be_list()
+})
+```
 
 ### to_be_dict()
 
+Use `.to_be_dict` to check that a value is a dictionary without requiring any specific content. For example, test that `{age: 10}` returns a valid dictionary:
 
-### to_be_function()
-
+```
+it('should be a dictionary', || {
+  expect({age: 10}).to_be_dict()
+})
+```
 
 ### to_be_class()
 
+Use `.to_be_class` to check that a value is a class and not an instance. For example, test that `Exception` is actually a class:
+
+```
+it('should be a list', || {
+  expect(Exception).to_be_class()
+})
+```
 
 ### to_be_iterable()
 
+Use `.to_be_iterable` to check that a value is an iterable whether its of basic types (e.g. String, List etc.) or an iterable class. For example, suppose we have a class `Set` defined ass follows:
+
+```
+class Set {
+  @iter() {}
+  @itern() {}
+}
+```
+
+The following test will show that it's as much an iterable as a list or dictionary can be.
+
+```
+it('should be enumerable', || {
+  expect([]).to_be_iterable()
+  expect({}).to_be_iterable()
+  expect(Set()).to_be_iterable()
+})
+```
 
 ### to_be_file()
 
+Use `.to_be_file` to check that a value is a file object. For example, you can test that an handle `fh` returned by the function `get_config()` is actually a file like this:
+
+```
+var fh = get_config()
+
+expect(fh).to_be_file()
+```
 
 ### to_be_bytes()
 
+Use `.to_be_bytes` to check that a value is an array of bytes. For example,
+
+```
+expect(bytes(0)).to_be_bytes()
+```
 
