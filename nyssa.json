@@ -1,6 +1,6 @@
 {
   "name": "qi", 
-  "version": "1.0.0", 
+  "version": "1.0.1", 
   "description": "A testing framework for Blade programming language.", 
   "homepage": "https://github.com/mcfriend99/qi.git", 
   "tags": [
@@ -18,5 +18,5 @@
   "deps": {
     "qi": "1.0.0"
   }, 
-  "post_install": "setup.b"
+  "cli": "cli.b"
 }

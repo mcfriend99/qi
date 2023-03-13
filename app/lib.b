@@ -115,22 +115,34 @@ class expect {
   }
 
   to_be_greater_than(e) {
-    self._run('to be greather than', e, |x, y| { return x > e })
+    self._run('to be greather than', e, |x, y| { 
+      if is_string(x) return x.length() > y
+      return x > y 
+    })
     return self
   }
 
   to_be_greater_than_or_equal(e) {
-    self._run('to be greather than or equal to', e, |x, y| { return x >= e })
+    self._run('to be greather than or equal to', e, |x, y| { 
+      if is_string(x) return x.length() >= y
+      return x >= y 
+    })
     return self
   }
 
   to_be_less_than(e) {
-    self._run('to be less than', e, |x, y| { return x < e })
+    self._run('to be less than', e, |x, y| { 
+      if is_string(x) return x.length() < y
+      return x < y 
+    })
     return self
   }
 
   to_be_less_than_or_equal(e) {
-    self._run('to be less than or equal to', e, |x, y| { return x <= e })
+    self._run('to be less than or equal to', e, |x, y| { 
+      if is_string(x) return x.length() <= y
+      return x <= y 
+    })
     return self
   }
 
@@ -287,32 +299,32 @@ def it(desc, fn) {
 }
 
 def describe(desc, fn) {
-  _curr_desc = {
-    it: [],
-    file: file(),
-    time: 0,
-  }
-
-  var start = microtime()
-
-  for ba in _before_alls {
-    ba()
-  }
-
-  _curr_desc.name = desc
   try {
+    _curr_desc = {
+      it: [],
+      file: file(),
+      time: 0,
+    }
+
+    var start = microtime()
+
+    for ba in _before_alls {
+      ba()
+    }
+
+    _curr_desc.name = desc
     fn()
+
+    for aa in _after_alls {
+      aa()
+    }
+
+    _curr_desc.time = microtime() - start
+    _stats.append(_curr_desc)
   } catch Exception e {
     io.stderr.write(e.message + '\r\n')
     io.stderr.write(e.stacktrace + '\r\n')
   }
-
-  for aa in _after_alls {
-    aa()
-  }
-
-  _curr_desc.time = microtime() - start
-  _stats.append(_curr_desc)
 }
 
 def _get_mark(state) {

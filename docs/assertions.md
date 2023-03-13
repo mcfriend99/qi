@@ -167,7 +167,7 @@ it('does not lead to errors when drinking La Croix', || {
 
 ### to_be_greater_than(number)
 
-Use `.to_be_greater_than` to compare `received > expected` for number or big integer values. For example, test that `ounces_per_can()` returns a value of more than 10 ounces:
+Use `.to_be_greater_than` to compare `received > expected` for number or `received.length() > expected` for string. For example, test that `ounces_per_can()` returns a value of more than 10 ounces:
 
 ```py
 it('is more than 10 ounces per can', || {
@@ -177,7 +177,7 @@ it('is more than 10 ounces per can', || {
 
 ### to_be_greater_than_or_equal(number)
 
-Use `.to_be_greater_than_or_equal` to compare `received >= expected` for number or big integer values. For example, test that `ounces_per_can()` returns a value of more than or equal to 10 ounces:
+Use `.to_be_greater_than_or_equal` to compare `received >= expected` for number or `received.length() >= expected` for string. For example, test that `ounces_per_can()` returns a value of more than or equal to 10 ounces:
 
 ```py
 it('is more than or equal to 10 ounces per can', || {
@@ -187,7 +187,7 @@ it('is more than or equal to 10 ounces per can', || {
 
 ### to_be_less_than(number)
 
-Use `.to_be_less_than` to compare `received < expected` for number or big integer values. For example, test that `ounces_per_can()` returns a value of less than 10 ounces:
+Use `.to_be_less_than` to compare `received < expected` for number or `received.length() < expected` for string. For example, test that `ounces_per_can()` returns a value of less than 10 ounces:
 
 ```py
 it('is less than 10 ounces per can', || {
@@ -197,7 +197,7 @@ it('is less than 10 ounces per can', || {
 
 ### to_be_less_than_or_equal(number)
 
-Use `.to_be_less_than_or_equal` to compare `received <= expected` for number or big integer values. For example, test that `ounces_per_can()` returns a value of less than or equal to 10 ounces:
+Use `.to_be_less_than_or_equal` to compare `received <= expected` for number or `received.length() <= expected` for string. For example, test that `ounces_per_can()` returns a value of less than or equal to 10 ounces:
 
 ```py
 it('is less than or equal to 10 ounces per can', || {
